@@ -22,6 +22,8 @@ def copytree(src, dst):
                 "64",
                 "--checkers",
                 "64",
+                "--copy-links",
+                "--create-empty-src-dirs",
             ],
             check=True,
         )
@@ -84,6 +86,17 @@ def build():
     if doInstall:
         print(f"Installing Blender to {installPath}...")
         copytree(expectedExtractPath, installPath)
+
+        if platform != "windows":
+            print("Setting executable permissions for Blender binaries...")
+            binaries = ["blender", "blender-launcher", "blender-softwaregl"]
+            for binary in binaries:
+                os.chmod(
+                    os.path.join(installPath, binary),
+                    0o755,
+                )
+            print("Permissions set.")
+
         print("Installation complete.")
     else:
         print("Skipping installation step.")
