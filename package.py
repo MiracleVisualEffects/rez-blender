@@ -12,3 +12,8 @@ requires = ["~python-3.11"]
 build_command = "python {root}/build.py"
 build_requires = []
 private_build_requires = []
+
+
+def commands():
+    env.PATH.append("{root}")
+    
